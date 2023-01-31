@@ -16,7 +16,9 @@ class Alunos extends React.Component {
             email: '',
             /* array vazio que no final do método componentDidMount() recebe os dados de 'dados' */
             alunos: [],
-            modalAberta: false
+            modalAberta: false,
+            modalConfirmacao: false,
+            modalResposta: false,
         }
     }
 
@@ -60,10 +62,7 @@ class Alunos extends React.Component {
             .then(resposta => {
                 /* se o POST der certo e retorna 'ok', executa o método buscarAluno() novamente */
                 if (resposta.ok) {
-                    console.log(resposta);
-                    alert("Aluno cadastrado com sucesso!");
-                    this.fecharModal();
-                    this.reset();
+                    this.fecharModalConfirmacao();
                     this.buscarAluno();
                 } else {
                     /* caso ocorra algum erro na requisição com a API */
@@ -105,10 +104,7 @@ class Alunos extends React.Component {
             .then(resposta => {
                 /* se o PUT der certo e retorna 'ok', executa o método buscarAluno() novamente */
                 if (resposta.ok) {
-                    console.log(resposta);
-                    alert("Aluno atualizado com sucesso!");
-                    this.fecharModal();
-                    this.reset();
+                    this.fecharModalConfirmacao();
                     this.buscarAluno();
                 } else {
                     /* caso ocorra algum erro na requisição com a API */
@@ -126,8 +122,9 @@ class Alunos extends React.Component {
             .then(resposta => {
                 /* se a deleção der certo e retorna 'ok', executa o método buscarAluno() novamente */
                 if (resposta.ok) {
-                    alert("Aluno deletado com sucesso!");
+                    /* this.abrirModalConfirmacao() */
                     this.buscarAluno();
+                    this.abrirModalResposta();
                 } else {
                     /* caso ocorra algum erro na requisição com a API */
                     alert('Não foi possível deletar o aluno.');
@@ -196,6 +193,10 @@ class Alunos extends React.Component {
             }
             /* executa a função  cadastraAluno() com a const aluno já contendo os dados do state dos inputs*/
             this.cadastraAluno(aluno);
+            this.fecharModal();
+            this.reset();
+            this.abrirModalConfirmacao();
+            this.abrirModalResposta();
         } else {
             const aluno = {
                 id: this.state.id,
@@ -203,8 +204,12 @@ class Alunos extends React.Component {
                 email: this.state.email,
             }
             this.atualizarAluno(aluno);
+            this.fecharModal();
+            this.reset();
+            this.abrirModalResposta();
         }
     }
+
 
     /* função que reseta (limpa) os campos de inputs do formulário */
     reset = () => {
@@ -217,7 +222,7 @@ class Alunos extends React.Component {
         )
     }
 
-        /* método que fecha o modal */
+    /* método que fecha o modal de edição e inserção */
     fecharModal = () => {
         this.setState(
             {
@@ -227,7 +232,7 @@ class Alunos extends React.Component {
         this.reset();
     }
 
-    /* método que abre o modal */
+    /* método que abre o modal de edição e inserção */
     abrirModal = () => {
         this.setState(
             {
@@ -236,11 +241,49 @@ class Alunos extends React.Component {
         )
     }
 
-        /* método que renderiza o form com modal dentro com campos de inputs */
+    /* método que abre o modal de confirmação */
+    abrirModalConfirmacao = () => {
+        this.setState(
+            {
+                modalConfirmacao: true
+            }
+        )
+    }
+
+    /* método que fecha o modal de confirmação */
+    fecharModalConfirmacao = () => {
+        this.setState(
+            {
+                modalConfirmacao: false
+            }
+        )
+    }
+
+    /* método que fecha o modal de resposta */
+    fecharModalResposta = () => {
+        this.setState(
+            {
+                modalResposta: false
+            }
+        )
+        this.reset();
+    }
+
+    /* método que abre o modal de resposta */
+    abrirModalResposta = () => {
+        this.setState(
+            {
+                modalResposta: true
+            }
+        )
+        this.reset();
+    }
+
+    /* método que renderiza o form com modal dentro com campos de inputs */
     render() {
         return (
             <div>
-
+                {/* modal de cadastro */}
                 <Modal show={this.state.modalAberta} onHide={this.fecharModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Dados do Aluno</Modal.Title>
@@ -251,7 +294,7 @@ class Alunos extends React.Component {
 
                             <Form.Group className="mb-3">
                                 <Form.Label>ID</Form.Label>
-                                <Form.Control type="text" value={this.state.id} readOnly={true} />
+                                <Form.Control type="text" value={this.state.id} readOnly={true} disabled />
                             </Form.Group>
 
                             <Form.Group className="mb-3">
@@ -274,7 +317,7 @@ class Alunos extends React.Component {
                         <Button variant="secondary" onClick={this.fecharModal}>
                             Fechar
                         </Button>
-                        <Button variant="primary" onClick={this.submit}>
+                        <Button variant="primary" onClick={this.abrirModalConfirmacao}>
                             Salvar
                         </Button>
                     </Modal.Footer>
@@ -283,6 +326,36 @@ class Alunos extends React.Component {
                 <Button variant="secondary" onClick={this.abrirModal}>
                     Novo
                 </Button>
+
+                {/* model confirmação */}
+                <Modal show={this.state.modalConfirmacao} onHide={this.fecharModalConfirmacao}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>ATENÇÃO!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Deseja realmente realizar esta ação?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.fecharModalConfirmacao}>
+                            Cancelar
+                        </Button>
+                        <Button variant="primary" onClick={this.submit}>
+                            Confirmar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* modal resposta */}
+                <Modal show={this.state.modalResposta} onHide={this.fecharModalResposta}>
+                    {/* <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header> */}
+                    <Modal.Body>Sua ação foi realizada com sucesso!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.fecharModalResposta}>
+                            Fechar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
 
                 {this.renderTabela()}
             </div>

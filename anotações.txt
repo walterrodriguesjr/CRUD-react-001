@@ -110,6 +110,12 @@ https://www.youtube.com/watch?v=yzz78l4ydQk
 -readequado os métodos de salvar e novo de acordo com o modal
 
 
+IMPLEMENTAÇÕES POSTERIORES 
+1-adicionado modalConfirmacao, retornando confirmação para prosseguir com ação de POST ou PUT
+1-adicionado modalResposta, retornando resposta de conclusão de ação de CRUD ao usuário 
+2-
+
+
 
 
 

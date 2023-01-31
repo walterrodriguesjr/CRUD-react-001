@@ -1,0 +1,116 @@
+https://www.youtube.com/watch?v=yzz78l4ydQk 
+
+1-Parte1 - Criando um CRUD completo em React (apresentação)
+-explicação da construção de um CRUD com react no front, consumindo uma API 
+
+
+2-Parte 2 - Iniciando um novo projeto React
+-instalando novo projeto react 
+    npx create-react-app frontend 
+-inicializando o projeto 
+    npm start 
+
+
+3-Parte 3 - Criando seu próprio componente
+-em public, temos index.html, que carrega um div com id root, este por sua vez, que em src/index.js, 
+    recebe tudo de App.js, que contém className App, o qual é recebido pelo id root. 
+-limpando o projeto antes de iniciar 
+
+
+4-Parte 4 - Criando rotas para os componentes React
+-criado a pasta components dentro de src 
+-criado dentro de components, os componentes: Home.js, Alunos.js e Sobre.js 
+-criado a esturtura de cada componente. (utiliza o atalho 'rafce' para criar a estrutura automaricamente)
+-criado em App.js, uma ul com 3 li 
+    dentro desta ul é onde será feito as rotas 
+    instalando o reacter-router-dom 
+        npm install react-router-dom@6
+    importado componentes da biblioteca reacter-router-dom (import { BrowserRouter, Routes, Link, Route } from "react-router-dom")
+-o componente <Link> funciona como se fosse um ahref do react <Link> 
+-o componente <Link> precisa estar envolvido pelo componente <BrowserRouter> para a troca de rota 
+    funcionar (ainda sem renderização do conteudo de cada rota)
+-adicionando o conteúdo de cada componente a sua respectiva rota 
+    dentro de BrowserRouter e abaixo dos <Links>, insere o componente <Routes> e dentro os componentes 
+        <Route> atrelado a cada url e dentro de cada <Route> os element={<NomeDoComponente/>}
+
+
+5-Parte 5 - Adicionando Abas de Menu com React Bootstrap
+-instalando o pacote react bootstrap via npm 
+    npm install react-bootstrap bootstrap
+    os componentes do boostrap precisam ser importados separadamente como qualquer componente 
+-cada componente do bootstrap é usado dentro de <tag> iniciando com letra maiúscula 
+-é necessário importar o CSS do boostrap 
+    import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+6-Parte 6 - Criando tabela com React
+-configurando classe dentro do componente Alunos.js 
+    em vez de criar uma função, cria-se a class Alunos que extende do componente React.components, 
+        este por sua vez, executa o método render(), que retorna algo 
+    criado método construtor(props) e passa o super(props), este define o state com seus componentes 
+        que irão conter dados 
+    criando a tabela usando componente do react-bootstrap (mesmo esquema do Nav, importar também)
+
+
+7-Parte 7- Usando um State em React
+-testes trazendo de um objeto fake local, armazenado em this.state, que recebe a propriedade alunos, 
+    e dentro deste, estão os objetos com dados de alunos 
+    em seguida, os dados são ijnseridos manualmente dentro das <tags> html usando {conteudo do objeto}
+-usando o método map() para trazer os dados em loop dinâmicamente 
+
+
+8-Parte 8 - Fazendo GET em uma API REST com React
+-componentes do ciclo de vida dos componentes do react:
+    componentDidMount() é chamado quando o componente foi montado
+        refere-se quando o componente é ativado e está em uso na tela
+    componentWillUnmount() é chamado quando o componente foi desmontado
+        refere-se quando o componente não está em uso pois está usando outro componente no momento
+-usando método fetch() para acessar a URL da API 
+    criado o método buscarAluno() que faz o fetch GET da API de aluno
+    os dados trazidos vão para 'resposta' que são convertido para json, em seguida vão para 'dados'
+    em seguida os dados de 'dados' do state são setados no array vazio 'alunos'
+
+
+9-Parte 9 - Fazendo DELETE em uma API REST com React
+-criado o método deletarAluno() que faz o fetch DELETE da API de aluno, recebendo o id como parâmetro
+-em seguida, 'resposta' recebe a confirmação da localização do 'id' passado no parâmetro da função 
+-em seguida um condiciona, se retornar 'ok', realiza novamente o método buscarAluno() para repopular 
+    a tabela atualizada 
+-criado o button danger do boostrap na tabela (e importado no topo do componente)
+    no button, criado o método onClick() que chama o método this.deletarAluno(aluno.id) tendo como parametro o aluno.id
+
+
+10-Parte 10 - Fazendo POST em uma API REST com React
+-criado e importado o componente Form de react-bootstrap 
+-a tabela está em renderTabela()
+-o form esta em render()
+-em this.state, criado 2 propriedades de nome e email como vazio ('')
+-nos inputs do form nome e email, criado as funções onChange() que capturam os dados inseridos em tempo dos inputs 
+    atualizaNome() atualizaEmail() que recebem os dados dos inputs 
+-criada a função submit, acionada pelo button submit do form, que cria um objeto (const aluno) e insere dentro, 
+    os dados contidos nos state de nome e email. Esta constante será enviada como parâmetro na função cadastraAluno()
+        de POST
+
+
+11-Parte 11 Fazendo UPDATE em uma API REST com React
+-incluído button do react-boostrap para atualizar dados, feito as demais alterações neste HTML 
+-o button de excluir agora vai executar o método de carregarDados()
+-criado o método carregarAluno(), que faz o a requisição fetch do tipo GET, pegando um aluno específico por 
+    id, para fazer a exibição do aluno selecionado em 'dados', em seguida este objeto é quebrado e passado 
+        para o state para ser exibido nos inputs que recebem o state como value 
+-criado o método atualizarAluno() que faz o a requisição fetch do tipo PUT, pegando um aluno que foi selecionado
+    por id, para fazer a atualização dos dados do aluno selecionado. 
+-incluído button do react-boostrap para resetar o form, possibilitando novo cadastro.
+    este button chama a função reset() a qual através do setState, seta vazio nos state dos inputs do form 
+
+12-Parte 12 - Melhorando a Interface em React com Modal e Bootstrap
+-criado o modal de react-boostrap dentro de form de render()
+    criada a função fecharModal()
+    criada a função abrirModal()
+-readequado os métodos de salvar e novo de acordo com o modal
+
+
+
+
+
+
